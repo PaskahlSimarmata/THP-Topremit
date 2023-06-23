@@ -20,7 +20,7 @@ export interface AlertDialogRespone {
   cancelRef: any;
   isOpen: any;
   onClose: any;
-  voucher:string;
+  voucher:Number;
   fromAmount:number;
   toAmount:any;
   via: string;

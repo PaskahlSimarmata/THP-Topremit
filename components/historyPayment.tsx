@@ -26,15 +26,15 @@ import React, { Suspense, useEffect, useState } from "react";
 export default function HistoryPayment(props: any) {
   const { cancelRef, isOpen, onClose } = props;
   const [localData, setLocalData] = useState<any>([]);
+  
   useEffect(() => {
-    // setLocalData(JSON.parse(localStorage.getItem('myData')||"[]"))
-    // console.log(localData);
     const fetchData = async () => {
       const response = await JSON.parse(localStorage.getItem("myData") || "[]");
       setLocalData(response);
     };
     fetchData();
   }, [localStorage.getItem("myData")]);
+
   const formatNumber = (number: number) => {
     const numberStr = number.toString();
     const reversedStr = numberStr.split("").reverse().join("");
@@ -80,13 +80,19 @@ export default function HistoryPayment(props: any) {
                   <Tbody>
                     {localData.map((data: any, index: number) => {
                       return (
-                        <Suspense key={index} fallback={<p>Loading...</p>} >
+                        <Suspense key={index + 1} fallback={<p>Loading...</p>}>
                           <Tr key={index}>
-                            <Td key={index}>{data.fullName}</Td>
-                            <Td key={index}>{data.email}</Td>
-                            <Td key={index}>{data.phone}</Td>
-                            <Td key={index}> {data.amount.currency} { formatNumber(data.amount.Exchange.toFixed(0))}</Td>
-                            <Td key={index}>IDR { formatNumber(data.amount.IDR)}</Td>
+                            <Td key={data.fullName}>{data.fullName}</Td>
+                            <Td key={data.email}>{data.email}</Td>
+                            <Td key={data.phone}>{data.phone}</Td>
+                            <Td key={data.amount.currency}>
+                              {" "}
+                              {data.amount.currency}{" "}
+                              {formatNumber(data.amount.Exchange)}
+                            </Td>
+                            <Td key={data.amount.IDR}>
+                              IDR {formatNumber(data.amount.IDR)}
+                            </Td>
                           </Tr>
                         </Suspense>
                       );

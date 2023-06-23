@@ -10,7 +10,7 @@ import {
     Tag,
     useColorModeValue,
   } from '@chakra-ui/react';
-  import { ReactNode } from 'react';
+  import { ReactNode, useMemo } from 'react';
   
   const Logo = (props: any) => {
     return (
@@ -38,12 +38,29 @@ import {
       </Text>
     );
   };
+
+
+
+  
   
   export default function LargeWithLogoCentered() {
+    const expensiveCalculation = () => {
+      // Simulate expensive calculation
+      let result = 0;
+      for (let i = 0; i < 1000000000; i++) {
+        result += i;
+      }
+      return result;
+    };
+  
+    const memoizedValue = expensiveCalculation()
     return (
       <Box
         bg={useColorModeValue('gray.50', 'gray.900')}
         color={useColorModeValue('gray.700', 'gray.200')}>
+          <Box>test12</Box>
+          <Text>{memoizedValue}</Text>
+          <Box>test12</Box>
         <Container as={Stack} maxW={'6xl'} py={10}>
           <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
             <Stack align={'flex-start'}>

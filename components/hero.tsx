@@ -24,6 +24,7 @@ import {
   AlertDialogCloseButton,
   AlertDialogBody,
   AlertDialogFooter,
+  FormControl,
 } from "@chakra-ui/react";
 import { Radio, RadioGroup } from "@chakra-ui/react";
 import { Blur } from "./blur";
@@ -35,7 +36,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 const BASE_API =
-  "https://v6.exchangerate-api.com/v6/21ddb6efc4a44cc28f1e8e03/latest/IDR";
+  "https://v6.exchangerate-api.com/v6/945c55d7cedc45977622ecfc/latest/IDR";
 
 interface FormData {
   voucher: string;
@@ -48,8 +49,9 @@ export default function JoinOurTeam() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef<any>();
+  const [disabled, setDisabled] = useState<boolean>(false);
   const [voucher, setVoucher] = useState<string>("");
-  const [voucherAmount, setVoucherAmount] = useState<number>(0)
+  const [voucherAmount, setVoucherAmount] = useState<number>(0);
   const [currencyOption, setcurrencyOption] = useState<any>([]);
   const [fromCurrency, setFromCurrency] = useState<any>(null);
   const [toCurrency, setToCurrency] = useState<any>(null);
@@ -57,7 +59,7 @@ export default function JoinOurTeam() {
   const [exchangeRate, setExchangerRate] = useState<number>(0);
   const [amountInFromCurrency, setAmountInFromCurrency] = useState(true);
   const [via, setVia] = useState<string>("");
-  let toAmount, fromAmount, danaAfterAdmin;
+  let toAmount, fromAmount: number;
   if (amountInFromCurrency) {
     fromAmount = amount;
     toAmount = amount * exchangeRate;
@@ -75,16 +77,16 @@ export default function JoinOurTeam() {
     setExchangerRate(data.conversion_rates[firstCurency]);
   };
 
-  const handleFromAmountChanges = (e:any) => {
+  const handleFromAmountChanges = (e: any) => {
     setAmount(e.target.value);
     setAmountInFromCurrency(true);
   };
-  const handleToAmountChanges = (e:any) => {
+  const handleToAmountChanges = (e: any) => {
     setAmount(e.target.value);
     setAmountInFromCurrency(false);
   };
 
-  const handleOptionChange = (e:any) => {
+  const handleOptionChange = (e: any) => {
     setVia(e.target.value);
   };
 
@@ -112,10 +114,11 @@ export default function JoinOurTeam() {
       }
     }
     formattedStr = formattedStr.split("").reverse().join("");
-    return formattedStr;
+
+    return parseFloat(formattedStr);
   };
   const onSubmit = () => {
-    if (voucher == "Hari Baik") {
+    if (voucher == "HARIBAIK") {
       toast.success("Voucher berhasil digunakan!", {
         position: "top-right",
         autoClose: 1000,
@@ -126,7 +129,8 @@ export default function JoinOurTeam() {
         progress: undefined,
         theme: "light",
       });
-      setVoucherAmount(parseFloat(fromAmount)+20000)
+      setVoucherAmount(fromAmount + 20000);
+      setDisabled(true)
     } else {
       toast.error("Voucher Salah!", {
         position: "top-right",
@@ -140,21 +144,21 @@ export default function JoinOurTeam() {
       });
     }
   };
-  const onChange = (e) => {
+  const onChange = (e: any) => {
     setVoucher(e.target.value);
     console.log(voucher);
   };
   useEffect(() => {
     if (fromCurrency != null && toCurrency != null) {
       fetch(
-        `https://v6.exchangerate-api.com/v6/21ddb6efc4a44cc28f1e8e03/latest/${fromCurrency}`
+        `https://v6.exchangerate-api.com/v6/945c55d7cedc45977622ecfc/latest/${fromCurrency}`
       )
         .then((res) => res.json())
         .then((data) => setExchangerRate(data.conversion_rates[toCurrency]));
     } else {
       getRates();
     }
-    console.log(via);
+    // console.log(via);
   }, [fromCurrency, via, toCurrency]);
   return (
     <Box position={"relative"}>
@@ -259,35 +263,34 @@ export default function JoinOurTeam() {
                   </Stack>
                 </RadioGroup>
               </Flex>
-              <Flex justifyContent={"space-between"}>
+              <Flex justifyContent={"end"}>
                 <Box>
                   <Text>Biaya Admin </Text>
                   <Text>Rp 25.000 </Text>
                 </Box>
-                <Box>
+                {/* <Box>
                   <Text>Biaya Total </Text>
                   <Text>
                     {fromCurrency}{" "}
-                    {formatNumber(parseFloat(fromAmount) + 25000)}
+                    {formatNumber(fromAmount + 25000)}
                   </Text>
-                </Box>
+                </Box> */}
               </Flex>
               <Box>
                 <Flex>
                   <Text>Voucher</Text>
                   <Text color={"red.300"}> *optional</Text>
                 </Flex>
-                <form>
-                  <Flex>
-                    <Input
-                      onChange={onChange}
-                      placeholder="vouchernya = hari baik"
-                    />
-                    <Button onClick={onSubmit} marginLeft={1}>
-                      Check
-                    </Button>
-                  </Flex>
-                </form>
+                <Flex>
+                  <Input
+                    disabled={disabled}
+                    onChange={onChange}
+                    placeholder="vouchernya = HARIBAIK"
+                  />
+                  <Button disabled={disabled} onClick={onSubmit} marginLeft={1}>
+                    Check
+                  </Button>
+                </Flex>
               </Box>
             </Stack>
             {via !== "" ? (
@@ -335,7 +338,7 @@ export default function JoinOurTeam() {
         toCurrency={toCurrency}
         via={via}
         fromAmount={fromAmount}
-        voucher = {voucherAmount}
+        voucher={voucherAmount}
         toAmount={toAmount}
         cancelRef={cancelRef}
         onClose={onClose}

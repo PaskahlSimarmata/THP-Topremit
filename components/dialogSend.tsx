@@ -44,10 +44,10 @@ export default function DialogSend(props: AlertDialogRespone) {
   const { register, control, handleSubmit, formState, reset } = form;
   const { errors } = formState;
   const onSubmit = (data: FormData) => {
-    const amountAfterAdmin = parseFloat(fromAmount) + 25000;
+    const amountAfterAdmin = fromAmount + 25000;
     const amount = {
       Exchange: toAmount,
-      IDR: parseFloat(fromAmount),
+      IDR: fromAmount,
       via: via,
       currency: toCurrency,
       afterAdmin: amountAfterAdmin,
@@ -113,6 +113,7 @@ export default function DialogSend(props: AlertDialogRespone) {
                       <Box paddingX={1}>
                         <Text>Full Name</Text>
                         <Input
+                          size={"lg"}
                           placeholder="Full Name"
                           {...register("fullName", {
                             required: "Username is required",
@@ -127,6 +128,7 @@ export default function DialogSend(props: AlertDialogRespone) {
                         {via == "Bank Account" ? (
                           <div>
                             <Input
+                              size={"lg"}
                               placeholder="Bank Account"
                               {...register("bankAccount", {
                                 required: "Bank Account is required",
@@ -139,6 +141,7 @@ export default function DialogSend(props: AlertDialogRespone) {
                         ) : (
                           <div>
                             <Input
+                              size={"lg"}
                               placeholder="pengambilan uang"
                               {...register("bankAccount", {
                                 required: "Lokasi Pengambilan Uang is required",
@@ -153,12 +156,17 @@ export default function DialogSend(props: AlertDialogRespone) {
                     </Flex>
                     <Flex>
                       <Box paddingX={1}>
-                        <Text>No rekening</Text>
+                        <Text>account number</Text>
                         <Input
-                          type="number"
+                          size={"lg"}
+                          type="text"
                           placeholder="No Rekening"
                           {...register("norek", {
                             required: "Norek is required",
+                            pattern: {
+                              value: /^[0-9]+$/,
+                              message: "Must be a number",
+                            },
                           })}
                         />
                         <Text color={"red.300"}>{errors.norek?.message}</Text>
@@ -166,6 +174,7 @@ export default function DialogSend(props: AlertDialogRespone) {
                       <Box paddingX={1}>
                         <Text>Country</Text>
                         <Input
+                          size={"lg"}
                           placeholder="Country"
                           {...register("country", {
                             required: "Country is required",
@@ -178,6 +187,7 @@ export default function DialogSend(props: AlertDialogRespone) {
                       <Box paddingX={1}>
                         <Text>Email Penerima</Text>
                         <Input
+                          size={"lg"}
                           placeholder="email"
                           {...register("email", {
                             required: "email is required",
@@ -193,10 +203,15 @@ export default function DialogSend(props: AlertDialogRespone) {
                       <Box paddingX={1}>
                         <Text>Phone Number penerima</Text>
                         <Input
-                          type="number"
+                          size={"lg"}
+                          type="text"
                           placeholder="Phone Number"
                           {...register("phone", {
                             required: "Phone Number is required",
+                            pattern: {
+                              value: /^[0-9]+$/,
+                              message: "Must be a number",
+                            },
                           })}
                         />
                         <Text color={"red.300"}>{errors.phone?.message}</Text>
@@ -205,6 +220,9 @@ export default function DialogSend(props: AlertDialogRespone) {
 
                     <Text>Total dana Sebelum Admin</Text>
                     <Input
+                      size={"lg"}
+                      fontWeight={"bold"}
+                      textColor={"black"}
                       type="text"
                       name="dana"
                       disabled
@@ -213,6 +231,9 @@ export default function DialogSend(props: AlertDialogRespone) {
                     />
                     <Text>Total dana Currency</Text>
                     <Input
+                      size={"lg"}
+                      fontWeight={"bold"}
+                      textColor={"black"}
                       type="text"
                       name="dana"
                       disabled
@@ -221,16 +242,20 @@ export default function DialogSend(props: AlertDialogRespone) {
                     />
                     <Text>Total dana Dengan Admin</Text>
                     <Input
+                      size={"lg"}
+                      fontWeight={"bold"}
+                      textColor={"black"}
                       type="text"
                       name="dana"
                       disabled
-                      value={`IDR ${parseFloat(fromAmount) + 25000}`}
+                      value={`IDR ${fromAmount + 25000}`}
                       placeholder="Bank Account"
                     />
                     {voucher ? (
                       <>
                         <Text>Total dana Setelah Voucher</Text>
                         <Input
+                          size={"lg"}
                           type="text"
                           name="dana"
                           disabled
@@ -241,14 +266,14 @@ export default function DialogSend(props: AlertDialogRespone) {
                     ) : (
                       <></>
                     )}
-                    <AlertDialogFooter>
+                    <Flex justifyContent={"end"}>
                       <Button ref={cancelRef} onClick={onClose}>
                         No
                       </Button>
                       <Button type="submit" colorScheme="blue" ml={3}>
                         Continue
                       </Button>
-                    </AlertDialogFooter>
+                    </Flex>
                   </Stack>
                 </form>
               </Box>

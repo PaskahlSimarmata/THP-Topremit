@@ -12,12 +12,13 @@ export default function Form(props: FormResponse) {
     amount,
     onChangeAmount,
   } = props;
-
+  const currency = selectedCurrency || "";
   return (
     <div>
       <Flex>
         <Input
           value={amount}
+          size={'lg'}
           onChange={onChangeAmount}
           placeholder="you send in IDR"
           border={"1px"}
@@ -29,7 +30,9 @@ export default function Form(props: FormResponse) {
           }}
         />
         <Select
-          value={selectedCurrency}
+          size={"lg"}
+          maxWidth={"100px"}
+          value={currency}
           disabled={disabled}
           onChange={onChangeCurrency}
         >
@@ -38,7 +41,7 @@ export default function Form(props: FormResponse) {
               options = "";
             } else {
               return (
-                <Suspense fallback={<p>Loading...</p>}>
+                <Suspense key={index} fallback={<p>Loading...</p>}>
                   <option value={options} key={index}>
                     {options}
                   </option>
