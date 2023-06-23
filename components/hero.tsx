@@ -195,7 +195,7 @@ export default function JoinOurTeam() {
             <Stack spacing={4}>
               <Form
                 selectedCurrency={fromCurrency}
-                amount={fromAmount.toFixed(0)}
+                amount={fromAmount}
                 currencyOptions={currencyOption}
                 disabled={true}
                 onChangeCurrency={(e: any) => setFromCurrency(e.target.value)}
