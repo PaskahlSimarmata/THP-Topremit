@@ -218,7 +218,7 @@ export default function DialogSend(props: AlertDialogRespone) {
                       </Box>
                     </Flex>
 
-                    <Text>Total dana Sebelum Admin</Text>
+                    <Text>Total dana Sebelum Admin dan voucher</Text>
                     <Input
                       size={"lg"}
                       fontWeight={"bold"}
@@ -226,7 +226,7 @@ export default function DialogSend(props: AlertDialogRespone) {
                       type="text"
                       name="dana"
                       disabled
-                      value={`IDR ${fromAmount}`}
+                      value={`IDR ${(parseFloat(fromAmount)).toFixed(0)}`}
                       placeholder="Bank Account"
                     />
                     <Text>Total dana Currency</Text>
@@ -248,18 +248,19 @@ export default function DialogSend(props: AlertDialogRespone) {
                       type="text"
                       name="dana"
                       disabled
-                      value={`IDR ${fromAmount + 25000}`}
+                      value={`IDR ${(parseFloat(fromAmount)+ 25000).toFixed(0)}`}
                       placeholder="Bank Account"
                     />
                     {voucher ? (
                       <>
-                        <Text>Total dana Setelah Voucher</Text>
+                        <Text>Total dana Setelah Voucher dan Admin</Text>
+                        <Text fontSize={"10px"} color={"red.400"}>*form ini hanya muncul ketika user masukkan voucher</Text>
                         <Input
                           size={"lg"}
                           type="text"
                           name="dana"
                           disabled
-                          value={`IDR ${voucher}`}
+                          value={`IDR ${(parseFloat(fromAmount)+20000).toFixed(0)}`}
                           placeholder="Bank Account"
                         />
                       </>

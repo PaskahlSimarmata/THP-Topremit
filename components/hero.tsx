@@ -117,6 +117,7 @@ export default function JoinOurTeam() {
 
     return parseFloat(formattedStr);
   };
+
   const onSubmit = () => {
     if (voucher == "HARIBAIK") {
       toast.success("Voucher berhasil digunakan!", {
@@ -146,8 +147,8 @@ export default function JoinOurTeam() {
   };
   const onChange = (e: any) => {
     setVoucher(e.target.value);
-    console.log(voucher);
   };
+
   useEffect(() => {
     if (fromCurrency != null && toCurrency != null) {
       fetch(
@@ -158,7 +159,6 @@ export default function JoinOurTeam() {
     } else {
       getRates();
     }
-    // console.log(via);
   }, [fromCurrency, via, toCurrency]);
   return (
     <Box position={"relative"}>
@@ -189,30 +189,13 @@ export default function JoinOurTeam() {
           p={{ base: 4, sm: 6, md: 8 }}
           spacing={{ base: 8 }}
         >
-          <Stack spacing={4}>
-            <Heading
-              color={"gray.800"}
-              lineHeight={1.1}
-              fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
-            >
-              Transfer
-              <Text
-                as={"span"}
-                marginLeft={"10px"}
-                bgGradient="linear(to-r, blue.400,blue.200)"
-                bgClip="text"
-              >
-                !
-              </Text>
-            </Heading>
-          </Stack>
 
           {"if you want to transfer via Bank Account ! "}
           <Box as={"form"} mt={3}>
             <Stack spacing={4}>
               <Form
                 selectedCurrency={fromCurrency}
-                amount={fromAmount}
+                amount={fromAmount.toFixed(0)}
                 currencyOptions={currencyOption}
                 disabled={true}
                 onChangeCurrency={(e: any) => setFromCurrency(e.target.value)}
@@ -268,13 +251,6 @@ export default function JoinOurTeam() {
                   <Text>Biaya Admin </Text>
                   <Text>Rp 25.000 </Text>
                 </Box>
-                {/* <Box>
-                  <Text>Biaya Total </Text>
-                  <Text>
-                    {fromCurrency}{" "}
-                    {formatNumber(fromAmount + 25000)}
-                  </Text>
-                </Box> */}
               </Flex>
               <Box>
                 <Flex>

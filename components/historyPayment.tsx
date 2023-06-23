@@ -26,7 +26,7 @@ import React, { Suspense, useEffect, useState } from "react";
 export default function HistoryPayment(props: any) {
   const { cancelRef, isOpen, onClose } = props;
   const [localData, setLocalData] = useState<any>([]);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await JSON.parse(localStorage.getItem("myData") || "[]");
@@ -74,7 +74,7 @@ export default function HistoryPayment(props: any) {
                       <Th>Email</Th>
                       <Th>Phone</Th>
                       <Th>Exchange</Th>
-                      <Th>Rupiah</Th>
+                      <Th>Total Pembayaran</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
